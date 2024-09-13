@@ -112,7 +112,7 @@
     <skipJapicmp>false</skipJapicmp>
     <compileLibrary>false</compileLibrary>
     <jniUtilIncludeDir>${project.build.directory}/netty-jni-util/</jniUtilIncludeDir>
-    <jniUtilVersion>0.0.6.Final</jniUtilVersion>
+    <jniUtilVersion>0.0.9.Final</jniUtilVersion>
     <javaDefaultModuleName>io.netty.internal.tcnative</javaDefaultModuleName>
     <javaModuleName>${javaDefaultModuleName}</javaModuleName>
     <javaModuleNameClassifier>${os.detected.name}.${os.detected.arch}</javaModuleNameClassifier>
@@ -304,13 +304,13 @@
             <configuration>
               <target if="${compileLibrary}">
                 <!-- Copy all of the code from the dynamic module -->
-                <delete dir="${generatedSourcesDir}" quiet="true" />
+                <delete dir="${generatedSourcesDir}" quiet="true"/>
                 <copy todir="${generatedSourcesDir}" verbose="true">
-                  <fileset dir="${opensslDynamicDir}/src/main" />
+                  <fileset dir="${opensslDynamicDir}/src/main"/>
                 </copy>
 
                 <copy todir="${generatedSourcesDir}/c" verbose="true">
-                  <fileset dir="${jniUtilIncludeDir}" />
+                  <fileset dir="${jniUtilIncludeDir}"/>
                 </copy>
               </target>
             </configuration>
@@ -327,21 +327,21 @@
 
                 <!-- Convert the paths to windows format -->
                 <pathconvert property="sslIncludeDirsWindowsPath" targetos="windows">
-                  <path location="${msvcSslIncludeDirs}" />
+                  <path location="${msvcSslIncludeDirs}"/>
                 </pathconvert>
                 <pathconvert property="sslLibDirsWindowsPath" targetos="windows">
-                  <path location="${msvcSslLibDirs}" />
+                  <path location="${msvcSslLibDirs}"/>
                 </pathconvert>
 
-                <echo message="Setting SSL_INCLUDE_DIRS=${sslIncludeDirsWindowsPath}" />
-                <echo message="Setting SSL_LIB_DIRS=${sslLibDirsWindowsPath}" />
-                <echo message="Setting SSL_LIBS=${msvcSslLibs}" />
+                <echo message="Setting SSL_INCLUDE_DIRS=${sslIncludeDirsWindowsPath}"/>
+                <echo message="Setting SSL_LIB_DIRS=${sslLibDirsWindowsPath}"/>
+                <echo message="Setting SSL_LIBS=${msvcSslLibs}"/>
 
                 <!-- Copy and filter the template MSVC project -->
-                <filter token="SSL_INCLUDE_DIRS" value="${sslIncludeDirsWindowsPath}" />
-                <filter token="SSL_LIB_DIR" value="${sslLibDirsWindowsPath}" />
-                <filter token="SSL_LIBS" value="${msvcSslLibs}" />
-                <copy file="${vsStaticTemplateFile}" tofile="${generatedSourcesDir}/native-package/vs2010.vcxproj" filtering="true" overwrite="true" verbose="true" />
+                <filter token="SSL_INCLUDE_DIRS" value="${sslIncludeDirsWindowsPath}"/>
+                <filter token="SSL_LIB_DIR" value="${sslLibDirsWindowsPath}"/>
+                <filter token="SSL_LIBS" value="${msvcSslLibs}"/>
+                <copy file="${vsStaticTemplateFile}" tofile="${generatedSourcesDir}/native-package/vs2010.vcxproj" filtering="true" overwrite="true" verbose="true"/>
               </target>
             </configuration>
           </execution>
@@ -357,28 +357,28 @@
               <exportAntProperties>true</exportAntProperties>
               <target>
                 <condition property="tcnative.snippet" value="libnetty_tcnative_${nativeLibOsParts}.so;osname=linux">
-                  <equals arg1="${os.detected.name}" arg2="linux" />
+                  <equals arg1="${os.detected.name}" arg2="linux"/>
                 </condition>
                 <!-- In OSGi specification, the alias of Windows family is win32, case insensitive -->
                 <condition property="tcnative.snippet" value="netty_tcnative_${nativeLibOsParts}.dll;osname=win32">
-                  <equals arg1="${os.detected.name}" arg2="windows" />
+                  <equals arg1="${os.detected.name}" arg2="windows"/>
                 </condition>
                 <!-- In OSGi specification, the alias of OSX family is macos or macosx, case insensitive -->
                 <condition property="tcnative.snippet" value="libnetty_tcnative_${nativeLibOsParts}.jnilib;osname=macosx;">
-                  <equals arg1="${os.detected.name}" arg2="osx" />
+                  <equals arg1="${os.detected.name}" arg2="osx"/>
                 </condition>
 
                 <!-- In OSGi specification, the alias of x86_32 is x86... -->
                 <condition property="nativeCode.processor" value="x86">
-                  <equals arg1="${os.detected.arch}" arg2="x86_32" />
+                  <equals arg1="${os.detected.arch}" arg2="x86_32"/>
                 </condition>
                 <!-- ... and aarch_64 is aarch64 -->
                 <condition property="nativeCode.processor" value="aarch64" else="${os.detected.arch}">
-                  <equals arg1="${os.detected.arch}" arg2="aarch_64" />
+                  <equals arg1="${os.detected.arch}" arg2="aarch_64"/>
                 </condition>
 
-                <property name="tcnativeManifest" value="META-INF/native/${tcnative.snippet};processor=${nativeCode.processor}" />
-                <echo message="Bundle-NativeCode: ${tcnativeManifest}" />
+                <property name="tcnativeManifest" value="META-INF/native/${tcnative.snippet};processor=${nativeCode.processor}"/>
+                <echo message="Bundle-NativeCode: ${tcnativeManifest}"/>
 
               </target>
             </configuration>
